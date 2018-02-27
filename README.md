@@ -1,1 +1,1 @@
-# SiteServer CMS 杂志插件
+# SiteServer CMS 付费杂志插件

@@ -19,9 +19,9 @@ namespace SS.Magazine.Parse
             var parsedContent = string.Empty;
             var type = string.Empty;
 
-            foreach (var attriName in context.StlElementAttributes.Keys)
+            foreach (var attriName in context.StlAttributes.Keys)
             {
-                var value = context.StlElementAttributes[attriName];
+                var value = context.StlAttributes[attriName];
                 if (Utils.EqualsIgnoreCase(attriName, AttributeType))
                 {
                     type = Main.Instance.ParseApi.ParseAttributeValue(value, context);
