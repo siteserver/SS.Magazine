@@ -35,7 +35,7 @@ namespace SS.Magazine.Pages
    
         public static string GetRedirectUrl(int siteId, int contentId)
         {
-            return Main.Instance.PluginApi.GetPluginUrl($"{nameof(PageArticles)}.aspx?siteId={siteId}&contentId={contentId}");
+            return $"{nameof(PageArticles)}.aspx?siteId={siteId}&contentId={contentId}";
         }
 
 	    public void Page_Load(object sender, EventArgs e)
