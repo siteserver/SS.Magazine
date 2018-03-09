@@ -44,7 +44,7 @@ namespace SS.Magazine.Parse
         {
             var jqueryUrl = Main.Instance.PluginApi.GetPluginUrl("assets/js/jquery-1.9.1.min.js");
             var vueUrl = Main.Instance.PluginApi.GetPluginUrl("assets/js/vue-2.4.2.min.js");
-            var apiUrl = Main.Instance.PluginApi.GetPluginUrl(nameof(ApiArticles));
+            var apiUrl = Main.Instance.PluginApi.GetPluginApiUrl(nameof(ApiArticles));
             var guid = "e" + Guid.NewGuid().ToString().Replace("-", string.Empty);
 
             var parsedContent = Main.Instance.ParseApi.ParseInnerXml(context.StlInnerXml, context);
@@ -76,6 +76,9 @@ namespace SS.Magazine.Parse
         var articleId = (result == null || result.length < 1) ? 0 : result[1];
         $.ajax({{
             url : ""{apiUrl}"",
+            xhrFields: {{
+                withCredentials: true
+            }},
             type: ""POST"",
             data: JSON.stringify({{
                 siteId: '{context.SiteId}',
@@ -89,10 +92,10 @@ namespace SS.Magazine.Parse
                 v{guid}.articles = data.articles;
                 v{guid}.isPurchased = data.isPurchased;
             }},
-            error: function (err)
+            error: function (xhr, ajaxOptions, thrownError)
             {{
-                var err = JSON.parse(err.responseText);
-                console.log(err.message);
+                console.log(xhr.status);
+                console.log(thrownError);
             }}
         }});
     }});
