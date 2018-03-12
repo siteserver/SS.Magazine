@@ -72,10 +72,10 @@ namespace SS.Magazine.Core
             return builder.ToString();
         }
 
-        public static int ToInt(string str)
+        public static int ToInt(string str, int defaultVal = 0)
         {
             int i;
-            return int.TryParse(str, out i) ? i : 0;
+            return int.TryParse(str, out i) ? i : defaultVal;
         }
 
         public static List<string> StringCollectionToStringList(string collection)

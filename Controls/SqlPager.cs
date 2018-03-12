@@ -278,7 +278,7 @@ ORDER BY {SortField} {SortMode}";
             }
             else
             {
-                CurrentPageIndex = Convert.ToInt32(Page.Request.QueryString[ParmPage], 1) - 1;
+                CurrentPageIndex = Utils.ToInt(Page.Request.QueryString[ParmPage], 1) - 1;
             }
 
             base.DataBind();
@@ -741,7 +741,7 @@ ORDER BY {SortField} {SortMode}";
         private void PageList_Click(object sender, EventArgs e)
         {
             var pageList = (DropDownList)sender;
-            var pageIndex = Convert.ToInt32(pageList.SelectedValue);
+            var pageIndex = Utils.ToInt(pageList.SelectedValue);
             var url = GetNavigationUrl(pageIndex + 1);
             HttpContext.Current.Response.Redirect(url, true);
         }
