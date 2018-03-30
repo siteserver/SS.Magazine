@@ -61,7 +61,7 @@ namespace SS.Magazine.Controls
 
         protected override void Render(HtmlTextWriter writer)
         {
-            var controllerUrl = "/api/files/ueditor/" + HttpContext.Current.Request.QueryString["siteId"];
+            var controllerUrl = "/api/sys/editors/ueditor/" + HttpContext.Current.Request.QueryString["siteId"];
             var editorUrl = "/sitefiles/assets/ueditor";
 
             if (string.IsNullOrEmpty(Height) || Height == "0")
