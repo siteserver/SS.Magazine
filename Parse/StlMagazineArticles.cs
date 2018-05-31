@@ -47,7 +47,7 @@ namespace SS.Magazine.Parse
             var apiUrl = Main.Instance.PluginApi.GetPluginApiUrl(nameof(ApiArticles));
             var guid = "e" + Guid.NewGuid().ToString().Replace("-", string.Empty);
 
-            var parsedContent = Main.Instance.ParseApi.ParseInnerXml(context.StlInnerXml, context);
+            var parsedContent = Main.Instance.ParseApi.Parse(context.StlInnerHtml, context);
             if (!string.IsNullOrEmpty(parsedContent))
             {
                 parsedContent = $@"
