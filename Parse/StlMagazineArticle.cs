@@ -19,7 +19,7 @@ namespace SS.Magazine.Parse
             var parsedContent = string.Empty;
             var type = string.Empty;
 
-            foreach (var attriName in context.StlAttributes.Keys)
+            foreach (var attriName in context.StlAttributes.AllKeys)
             {
                 var value = context.StlAttributes[attriName];
                 if (Utils.EqualsIgnoreCase(attriName, AttributeType))
