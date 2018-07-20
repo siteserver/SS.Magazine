@@ -1,5 +1,4 @@
-﻿using System.Web.UI.WebControls;
-using SiteServer.Plugin;
+﻿using SiteServer.Plugin;
 using SS.Magazine.Core;
 using SS.Magazine.Pages;
 using SS.Magazine.Parse;
@@ -23,10 +22,10 @@ namespace SS.Magazine
 
             service
                 .AddContentModel(ContentTableUtils.ContentTableName, ContentTableUtils.ContentTableColumns)
-                .AddContentLink(new HyperLink
+                .AddContentMenu(new Menu
                 {
                     Text = "杂志文章管理",
-                    NavigateUrl = $"{nameof(PageArticles)}.aspx"
+                    Href = $"{nameof(PageArticles)}.aspx"
                 })
                 .AddDatabaseTable(ArticleDao.TableName, ArticleDao.Columns)
                 .AddStlElementParser(StlMagazineArticles.ElementName, StlMagazineArticles.Parse)
@@ -38,9 +37,9 @@ namespace SS.Magazine
 
         private object Service_ApiPost(object sender, ApiEventArgs args)
         {
-            if (!string.IsNullOrEmpty(args.Action))
+            if (!string.IsNullOrEmpty(args.RouteResource))
             {
-                if (Utils.EqualsIgnoreCase(args.Action, nameof(StlMagazineArticles.ApiArticles)))
+                if (Utils.EqualsIgnoreCase(args.RouteResource, nameof(StlMagazineArticles.ApiArticles)))
                 {
                     return StlMagazineArticles.ApiArticles(args.Request);
                 }

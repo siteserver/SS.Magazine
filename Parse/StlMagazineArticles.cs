@@ -44,7 +44,7 @@ namespace SS.Magazine.Parse
         {
             var jqueryUrl = Main.Instance.PluginApi.GetPluginUrl("assets/js/jquery-1.9.1.min.js");
             var vueUrl = Main.Instance.PluginApi.GetPluginUrl("assets/js/vue-2.4.2.min.js");
-            var apiUrl = Main.Instance.PluginApi.GetPluginApiUrl(nameof(ApiArticles));
+            var apiUrl = $"{Main.Instance.PluginApi.PluginApiUrl}/{nameof(ApiArticles)}";
             var guid = "e" + Guid.NewGuid().ToString().Replace("-", string.Empty);
 
             var parsedContent = Main.Instance.ParseApi.Parse(context.StlInnerHtml, context);
