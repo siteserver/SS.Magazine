@@ -32,10 +32,10 @@ namespace SS.Magazine
                 .AddStlElementParser(StlMagazineArticle.ElementName, StlMagazineArticle.Parse)
                 ;
 
-            service.ApiPost += Service_ApiPost;
+            service.RestApiPost += Service_RestApiPost;
         }
 
-        private object Service_ApiPost(object sender, ApiEventArgs args)
+        private object Service_RestApiPost(object sender, RestApiEventArgs args)
         {
             if (!string.IsNullOrEmpty(args.RouteResource))
             {

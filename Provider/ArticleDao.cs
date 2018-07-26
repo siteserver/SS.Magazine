@@ -12,13 +12,13 @@ namespace SS.Magazine.Provider
 
         private readonly DatabaseType _databaseType;
         private readonly string _connectionString;
-        private readonly IDataApi _helper;
+        private readonly IDatabaseApi _helper;
 
         public ArticleDao()
         {
             _databaseType = Main.Instance.DatabaseType;
             _connectionString = Main.Instance.ConnectionString;
-            _helper = Main.Instance.DataApi;
+            _helper = Main.Instance.DatabaseApi;
         }
 
         public static List<TableColumn> Columns => new List<TableColumn>
