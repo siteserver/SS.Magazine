@@ -43,7 +43,7 @@ namespace SS.Magazine.Pages
 	        _siteId = Convert.ToInt32(Request.QueryString["siteId"]);
 	        _contentId = Convert.ToInt32(Request.QueryString["contentId"]);
 
-	        if (!Main.Instance.AdminApi.HasSitePermissions(_siteId, Main.Instance.Id))
+	        if (!SiteServer.Plugin.Context.Request.AdminPermissions.HasSitePermissions(_siteId, Main.PluginId))
 	        {
 	            Response.Write("<h1>未授权访问</h1>");
 	            Response.End();
@@ -103,7 +103,7 @@ if (ids.length > 0){{
 
 	            var articleId = Convert.ToInt32(Request.QueryString["articleId"]);
 
-	            var jsUrl = Main.Instance.PluginApi.GetPluginUrl("assets/script.js");
+	            var jsUrl = SiteServer.Plugin.Context.PluginApi.GetPluginUrl(Main.PluginId, "assets/script.js");
 
 	            LtlModalAddTitle.Text = articleId > 0 ? "编辑表单内容" : "新增表单内容";
 	            LtlModalAddTitle.Text += $@"<script type=""text/javascript"" src=""{jsUrl}""></script>";

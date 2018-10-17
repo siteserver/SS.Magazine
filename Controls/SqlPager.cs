@@ -38,7 +38,7 @@ namespace SS.Magazine.Controls
                 orderByString2 = orderByString2.Replace(" ASC", " DESC");
                 orderByString2 = orderByString2.Replace(" DESC2", " ASC");
 
-                if (Main.Instance.DatabaseType == DatabaseType.MySql)
+                if (SiteServer.Plugin.Context.DatabaseType == DatabaseType.MySql)
                 {
                     return $@"
 SELECT * FROM (
@@ -59,7 +59,7 @@ SELECT * FROM
             }
             else
             {
-                if (Main.Instance.DatabaseType == DatabaseType.MySql)
+                if (SiteServer.Plugin.Context.DatabaseType == DatabaseType.MySql)
                 {
                     return $@"
 SELECT * FROM (
@@ -635,7 +635,7 @@ ORDER BY {SortField} {SortMode}";
             //var data = new DataTable();
             //adapter.Fill(data.DataSet);
 
-            var dataset = Main.Instance.DatabaseApi.ExecuteDataset(Main.Instance.ConnectionString, cmd);
+            var dataset = SiteServer.Plugin.Context.DatabaseApi.ExecuteDataset(SiteServer.Plugin.Context.ConnectionString, cmd);
             var data = dataset.Tables[0];
 
             //Utils.FillDataAdapterWithDataTable(Main.Context.DataApi.DatabaseType, adapter, data);

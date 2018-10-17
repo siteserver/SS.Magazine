@@ -16,9 +16,9 @@ namespace SS.Magazine.Provider
 
         public ArticleDao()
         {
-            _databaseType = Main.Instance.DatabaseType;
-            _connectionString = Main.Instance.ConnectionString;
-            _helper = Main.Instance.DatabaseApi;
+            _databaseType = Context.DatabaseType;
+            _connectionString = Context.ConnectionString;
+            _helper = Context.DatabaseApi;
         }
 
         public static List<TableColumn> Columns => new List<TableColumn>

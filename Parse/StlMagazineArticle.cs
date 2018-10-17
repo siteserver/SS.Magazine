@@ -24,7 +24,7 @@ namespace SS.Magazine.Parse
                 var value = context.StlAttributes[attriName];
                 if (Utils.EqualsIgnoreCase(attriName, AttributeType))
                 {
-                    type = Main.Instance.ParseApi.ParseAttributeValue(value, context);
+                    type = Context.ParseApi.ParseAttributeValue(value, context);
                 }
             }
 

@@ -42,12 +42,12 @@ namespace SS.Magazine.Parse
 
         public static string Parse(IParseContext context)
         {
-            var jqueryUrl = Main.Instance.PluginApi.GetPluginUrl("assets/js/jquery-1.9.1.min.js");
-            var vueUrl = Main.Instance.PluginApi.GetPluginUrl("assets/js/vue-2.4.2.min.js");
-            var apiUrl = $"{Main.Instance.PluginApi.PluginApiUrl}/{nameof(ApiArticles)}";
+            var jqueryUrl = Context.PluginApi.GetPluginUrl(Main.PluginId, "assets/js/jquery-1.9.1.min.js");
+            var vueUrl = Context.PluginApi.GetPluginUrl(Main.PluginId, "assets/js/vue-2.4.2.min.js");
+            var apiUrl = $"{Context.PluginApi.GetPluginApiUrl(Main.PluginId)}/{nameof(ApiArticles)}";
             var guid = "e" + Guid.NewGuid().ToString().Replace("-", string.Empty);
 
-            var parsedContent = Main.Instance.ParseApi.Parse(context.StlInnerHtml, context);
+            var parsedContent = Context.ParseApi.Parse(context.StlInnerHtml, context);
             if (!string.IsNullOrEmpty(parsedContent))
             {
                 parsedContent = $@"

@@ -38,11 +38,13 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SiteServer.Plugin, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\SiteServer.Plugin.2.0.0\lib\net45\SiteServer.Plugin.dll</HintPath>
+    <Reference Include="SiteServer.Plugin, Version=2.0.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\SiteServer.Plugin.2.0.17\lib\net45\SiteServer.Plugin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,8 +55,34 @@
   <ItemGroup>
     <Compile Include="Controls\SqlPager.cs" />
     <Compile Include="Controls\UEditor.cs" />
+    <Compile Include="Core\LitJson\IJsonWrapper.cs" />
+    <Compile Include="Core\LitJson\JsonData.cs" />
+    <Compile Include="Core\LitJson\JsonException.cs" />
+    <Compile Include="Core\LitJson\JsonMapper.cs" />
+    <Compile Include="Core\LitJson\JsonReader.cs" />
+    <Compile Include="Core\LitJson\JsonWriter.cs" />
+    <Compile Include="Core\LitJson\Lexer.cs" />
+    <Compile Include="Core\LitJson\ParserToken.cs" />
+    <Compile Include="Core\WeiXin.cs" />
     <Compile Include="Core\CacheUtils.cs" />
     <Compile Include="Core\ContentTableUtils.cs" />
+    <Compile Include="Core\WxPay\business\DownloadBill.cs" />
+    <Compile Include="Core\WxPay\business\JsApiPay.cs" />
+    <Compile Include="Core\WxPay\business\MicroPay.cs" />
+    <Compile Include="Core\WxPay\business\NativeNotify.cs" />
+    <Compile Include="Core\WxPay\business\NativePay.cs" />
+    <Compile Include="Core\WxPay\business\OrderQuery.cs" />
+    <Compile Include="Core\WxPay\business\Refund.cs" />
+    <Compile Include="Core\WxPay\business\RefundQuery.cs" />
+    <Compile Include="Core\WxPay\business\ResultNotify.cs" />
+    <Compile Include="Core\WxPay\lib\Config.cs" />
+    <Compile Include="Core\WxPay\lib\Data.cs" />
+    <Compile Include="Core\WxPay\lib\Exception.cs" />
+    <Compile Include="Core\WxPay\lib\HttpService.cs" />
+    <Compile Include="Core\WxPay\lib\Log.cs" />
+    <Compile Include="Core\WxPay\lib\Notify.cs" />
+    <Compile Include="Core\WxPay\lib\WxPayApi.cs" />
+    <Compile Include="Model\OrderInfo.cs" />
     <Compile Include="Parse\StlMagazineArticle.cs" />
     <Compile Include="Parse\StlMagazineArticles.cs" />
     <Compile Include="Core\Utils.cs" />
@@ -68,6 +96,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\ArticleDao.cs" />
     <Compile Include="Provider\Dao.cs" />
+    <Compile Include="Provider\OrderDao.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\plugin-utils\fonts\fontawesome-webfont.eot" />
