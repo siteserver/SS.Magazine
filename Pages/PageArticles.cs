@@ -5,6 +5,7 @@ using System.Web.UI.WebControls;
 using SS.Magazine.Controls;
 using SS.Magazine.Core;
 using SS.Magazine.Model;
+using SS.Magazine.Provider;
 
 namespace SS.Magazine.Pages
 {
@@ -54,13 +55,13 @@ namespace SS.Magazine.Pages
 	            !string.IsNullOrEmpty(Request.QueryString["idCollection"]))
 	        {
 	            var list = Request.QueryString["idCollection"].Split(',').Select(s => Convert.ToInt32(s)).ToList();
-	            Main.ArticleDao.Delete(list);
+	            ArticleDao.Delete(list);
 	            LtlMessage.Text = Utils.GetMessageHtml("删除成功！", true);
 	        }
 
 	        SpArticles.ControlToPaginate = RptArticles;
 	        SpArticles.ItemsPerPage = 30;
-	        SpArticles.SelectCommand = Main.ArticleDao.GetSelectString(_siteId, _contentId);
+	        SpArticles.SelectCommand = ArticleDao.GetSelectString(_siteId, _contentId);
 	        SpArticles.SortField = nameof(ArticleInfo.Taxis);
 	        SpArticles.SortMode = "ASC";
 	        RptArticles.ItemDataBound += RptArticles_ItemDataBound;
@@ -109,7 +110,7 @@ if (ids.length > 0){{
 	            LtlModalAddTitle.Text += $@"<script type=""text/javascript"" src=""{jsUrl}""></script>";
 	            if (articleId > 0)
 	            {
-	                var articleInfo = Main.ArticleDao.GetArticleInfo(articleId);
+	                var articleInfo = ArticleDao.GetArticleInfo(articleId);
 	                TbTitle.Text = articleInfo.Title;
 	                Utils.SelectListItems(DdlIsFree, articleInfo.IsFree.ToString());
 	                TbContent.Text = articleInfo.Content;
@@ -127,7 +128,7 @@ if (ids.length > 0){{
             if (e.Item.ItemType != ListItemType.Item && e.Item.ItemType != ListItemType.AlternatingItem) return;
 
             var articleId = Utils.EvalInt(e.Item.DataItem, nameof(ArticleInfo.Id));
-            var articleInfo = Main.ArticleDao.GetArticleInfo(articleId);
+            var articleInfo = ArticleDao.GetArticleInfo(articleId);
 
             var ltlTitle = (Literal)e.Item.FindControl("ltlTitle");
             var ltlIsFree = (Literal)e.Item.FindControl("ltlIsFree");
@@ -152,13 +153,13 @@ if (ids.length > 0){{
             {
                 try
                 {
-                    var articleInfo = Main.ArticleDao.GetArticleInfo(articleId);
+                    var articleInfo = ArticleDao.GetArticleInfo(articleId);
 
                     articleInfo.Title = TbTitle.Text;
                     articleInfo.IsFree = Convert.ToBoolean(DdlIsFree.SelectedValue);
                     articleInfo.Content = TbContent.Text;
 
-                    Main.ArticleDao.Update(articleInfo);
+                    ArticleDao.Update(articleInfo);
 
                     isChanged = true;
                 }
@@ -180,7 +181,7 @@ if (ids.length > 0){{
                         Content = TbContent.Text
                     };
 
-                    Main.ArticleDao.Insert(articleInfo);
+                    ArticleDao.Insert(articleInfo);
 
                     isChanged = true;
                 }
@@ -209,7 +210,7 @@ if (ids.length > 0){{
                 {
                     foreach (var id in list)
                     {
-                        Main.ArticleDao.UpdateTaxisToUp(_contentId, id);
+                        ArticleDao.UpdateTaxisToUp(_contentId, id);
                     }
                 }
             }
@@ -219,7 +220,7 @@ if (ids.length > 0){{
                 {
                     foreach (var id in list)
                     {
-                        Main.ArticleDao.UpdateTaxisToDown(_contentId, id);
+                        ArticleDao.UpdateTaxisToDown(_contentId, id);
                     }
                 }
             }

@@ -6,20 +6,9 @@ using SS.Magazine.Model;
 
 namespace SS.Magazine.Provider
 {
-    public class ArticleDao
+    public static class ArticleDao
     {
         public const string TableName = "ss_magazine_article";
-
-        private readonly DatabaseType _databaseType;
-        private readonly string _connectionString;
-        private readonly IDatabaseApi _helper;
-
-        public ArticleDao()
-        {
-            _databaseType = Context.DatabaseType;
-            _connectionString = Context.ConnectionString;
-            _helper = Context.DatabaseApi;
-        }
 
         public static List<TableColumn> Columns => new List<TableColumn>
         {
@@ -61,7 +50,7 @@ namespace SS.Magazine.Provider
             }
         };
 
-        public int Insert(ArticleInfo articleInfo)
+        public static int Insert(ArticleInfo articleInfo)
         {
             string sqlString = $@"INSERT INTO {TableName}
            ({nameof(ArticleInfo.SiteId)}, 
@@ -82,18 +71,18 @@ namespace SS.Magazine.Provider
 
             var parameters = new List<IDataParameter>
             {
-                _helper.GetParameter(nameof(articleInfo.SiteId), articleInfo.SiteId),
-                _helper.GetParameter(nameof(articleInfo.ContentId), articleInfo.ContentId),
-                _helper.GetParameter(nameof(articleInfo.Taxis), taxis),
-                _helper.GetParameter(nameof(articleInfo.Title), articleInfo.Title),
-                _helper.GetParameter(nameof(articleInfo.IsFree), articleInfo.IsFree),
-                _helper.GetParameter(nameof(articleInfo.Content), articleInfo.Content)
+                Context.DatabaseApi.GetParameter(nameof(articleInfo.SiteId), articleInfo.SiteId),
+                Context.DatabaseApi.GetParameter(nameof(articleInfo.ContentId), articleInfo.ContentId),
+                Context.DatabaseApi.GetParameter(nameof(articleInfo.Taxis), taxis),
+                Context.DatabaseApi.GetParameter(nameof(articleInfo.Title), articleInfo.Title),
+                Context.DatabaseApi.GetParameter(nameof(articleInfo.IsFree), articleInfo.IsFree),
+                Context.DatabaseApi.GetParameter(nameof(articleInfo.Content), articleInfo.Content)
             };
 
-            return _helper.ExecuteNonQueryAndReturnId(TableName, nameof(ArticleInfo.Id), _connectionString, sqlString, parameters.ToArray());
+            return Context.DatabaseApi.ExecuteNonQueryAndReturnId(TableName, nameof(ArticleInfo.Id), Context.ConnectionString, sqlString, parameters.ToArray());
         }
 
-        public void Update(ArticleInfo articleInfo)
+        public static void Update(ArticleInfo articleInfo)
         {
             string sqlString = $@"UPDATE {TableName} SET
                 {nameof(ArticleInfo.Title)} = @{nameof(ArticleInfo.Title)}, 
@@ -103,28 +92,28 @@ namespace SS.Magazine.Provider
 
             var parameters = new List<IDataParameter>
             {
-                _helper.GetParameter(nameof(articleInfo.Title), articleInfo.Title),
-                _helper.GetParameter(nameof(articleInfo.IsFree), articleInfo.IsFree),
-                _helper.GetParameter(nameof(articleInfo.Content), articleInfo.Content),
-                _helper.GetParameter(nameof(articleInfo.Id), articleInfo.Id)
+                Context.DatabaseApi.GetParameter(nameof(articleInfo.Title), articleInfo.Title),
+                Context.DatabaseApi.GetParameter(nameof(articleInfo.IsFree), articleInfo.IsFree),
+                Context.DatabaseApi.GetParameter(nameof(articleInfo.Content), articleInfo.Content),
+                Context.DatabaseApi.GetParameter(nameof(articleInfo.Id), articleInfo.Id)
             };
 
-            _helper.ExecuteNonQuery(_connectionString, sqlString, parameters.ToArray());
+            Context.DatabaseApi.ExecuteNonQuery(Context.ConnectionString, sqlString, parameters.ToArray());
         }
 
-        public void Delete(List<int> deleteIdList)
+        public static void Delete(List<int> deleteIdList)
         {
             string sqlString =
                 $"DELETE FROM {TableName} WHERE Id IN ({string.Join(",", deleteIdList)})";
-            _helper.ExecuteNonQuery(_connectionString, sqlString);
+            Context.DatabaseApi.ExecuteNonQuery(Context.ConnectionString, sqlString);
         }
 
-        public string GetSelectString(int siteId, int contentId)
+        public static string GetSelectString(int siteId, int contentId)
         {
             return $"SELECT {nameof(ArticleInfo.Id)}, {nameof(ArticleInfo.Taxis)} FROM {TableName} WHERE {nameof(ArticleInfo.SiteId)} = {siteId} AND {nameof(ArticleInfo.ContentId)} = {contentId} ORDER BY Taxis, Id";
         }
 
-        public List<ArticleInfo> GetArticleInfoList(int siteId, int contentId)
+        public static List<ArticleInfo> GetArticleInfoList(int siteId, int contentId)
         {
             var list = new List<ArticleInfo>();
 
@@ -141,11 +130,11 @@ namespace SS.Magazine.Provider
 
             var parameters = new[]
             {
-                _helper.GetParameter(nameof(ArticleInfo.SiteId), siteId),
-                _helper.GetParameter(nameof(ArticleInfo.ContentId), contentId)
+                Context.DatabaseApi.GetParameter(nameof(ArticleInfo.SiteId), siteId),
+                Context.DatabaseApi.GetParameter(nameof(ArticleInfo.ContentId), contentId)
             };
 
-            using (var rdr = _helper.ExecuteReader(_connectionString, sqlString, parameters))
+            using (var rdr = Context.DatabaseApi.ExecuteReader(Context.ConnectionString, sqlString, parameters))
             {
                 while (rdr.Read())
                 {
@@ -157,7 +146,7 @@ namespace SS.Magazine.Provider
             return list;
         }
 
-        public ArticleInfo GetArticleInfo(int articleId)
+        public static ArticleInfo GetArticleInfo(int articleId)
         {
             ArticleInfo articleInfo = null;
 
@@ -169,7 +158,7 @@ namespace SS.Magazine.Provider
             {nameof(ArticleInfo.Content)}
             FROM {TableName} WHERE {nameof(ArticleInfo.Id)} = {articleId}";
 
-            using (var rdr = _helper.ExecuteReader(_connectionString, sqlString))
+            using (var rdr = Context.DatabaseApi.ExecuteReader(Context.ConnectionString, sqlString))
             {
                 if (rdr.Read())
                 {
@@ -181,12 +170,12 @@ namespace SS.Magazine.Provider
             return articleInfo;
         }
 
-        private int GetTaxis(int id)
+        private static int GetTaxis(int id)
         {
             string sqlString = $"SELECT Taxis FROM {TableName} WHERE Id = {id}";
             var taxis = 0;
 
-            using (var rdr = _helper.ExecuteReader(_connectionString, sqlString))
+            using (var rdr = Context.DatabaseApi.ExecuteReader(Context.ConnectionString, sqlString))
             {
                 if (rdr.Read())
                 {
@@ -198,26 +187,26 @@ namespace SS.Magazine.Provider
             return taxis;
         }
 
-        private void SetTaxis(int id, int taxis)
+        private static void SetTaxis(int id, int taxis)
         {
             string sqlString = $"UPDATE {TableName} SET Taxis = {taxis} WHERE Id = {id}";
-            _helper.ExecuteNonQuery(_connectionString, sqlString);
+            Context.DatabaseApi.ExecuteNonQuery(Context.ConnectionString, sqlString);
         }
 
-        private int GetMaxTaxis(int contentId)
+        private static int GetMaxTaxis(int contentId)
         {
             string sqlString = $"SELECT MAX(Taxis) FROM {TableName} WHERE {nameof(ArticleInfo.ContentId)} = {contentId}";
-            return Main.Dao.GetIntResult(sqlString);
+            return Dao.GetIntResult(sqlString);
         }
 
-        public bool UpdateTaxisToDown(int contentId, int id)
+        public static bool UpdateTaxisToDown(int contentId, int id)
         {
-            var sqlString = Utils.GetTopSqlString(_databaseType, TableName, "Id, Taxis", $"WHERE ((Taxis > (SELECT Taxis FROM {TableName} WHERE Id = {id})) AND {nameof(ArticleInfo.ContentId)} = {contentId}) ORDER BY Taxis", 1);
+            var sqlString = Utils.GetTopSqlString(Context.DatabaseType, TableName, "Id, Taxis", $"WHERE ((Taxis > (SELECT Taxis FROM {TableName} WHERE Id = {id})) AND {nameof(ArticleInfo.ContentId)} = {contentId}) ORDER BY Taxis", 1);
 
             var higherId = 0;
             var higherTaxis = 0;
 
-            using (var rdr = _helper.ExecuteReader(_connectionString, sqlString))
+            using (var rdr = Context.DatabaseApi.ExecuteReader(Context.ConnectionString, sqlString))
             {
                 if (rdr.Read())
                 {
@@ -238,14 +227,14 @@ namespace SS.Magazine.Provider
             return false;
         }
 
-        public bool UpdateTaxisToUp(int contentId, int id)
+        public static bool UpdateTaxisToUp(int contentId, int id)
         {
-            var sqlString = Utils.GetTopSqlString(_databaseType, TableName, "Id, Taxis", $"WHERE ((Taxis < (SELECT Taxis FROM {TableName} WHERE (Id = {id}))) AND {nameof(ArticleInfo.ContentId)} = {contentId}) ORDER BY Taxis DESC", 1);
+            var sqlString = Utils.GetTopSqlString(Context.DatabaseType, TableName, "Id, Taxis", $"WHERE ((Taxis < (SELECT Taxis FROM {TableName} WHERE (Id = {id}))) AND {nameof(ArticleInfo.ContentId)} = {contentId}) ORDER BY Taxis DESC", 1);
 
             var lowerId = 0;
             var lowerTaxis = 0;
 
-            using (var rdr = _helper.ExecuteReader(_connectionString, sqlString))
+            using (var rdr = Context.DatabaseApi.ExecuteReader(Context.ConnectionString, sqlString))
             {
                 if (rdr.Read())
                 {

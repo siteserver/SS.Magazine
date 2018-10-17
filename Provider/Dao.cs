@@ -4,25 +4,16 @@ using SiteServer.Plugin;
 
 namespace SS.Magazine.Provider
 {
-    public class Dao
+    public static class Dao
     {
-        private readonly string _connectionString;
-        private readonly IDatabaseApi _helper;
-
-        public Dao()
-        {
-            _connectionString = Context.ConnectionString;
-            _helper = Context.DatabaseApi;
-        }
-
-        public int GetIntResult(string sqlString)
+        public static int GetIntResult(string sqlString)
         {
             var count = 0;
 
-            using (var conn = _helper.GetConnection(_connectionString))
+            using (var conn = Context.DatabaseApi.GetConnection(Context.ConnectionString))
             {
                 conn.Open();
-                using (var rdr = _helper.ExecuteReader(conn, sqlString))
+                using (var rdr = Context.DatabaseApi.ExecuteReader(conn, sqlString))
                 {
                     if (rdr.Read() && !rdr.IsDBNull(0))
                     {
@@ -34,14 +25,14 @@ namespace SS.Magazine.Provider
             return count;
         }
 
-        public int GetIntResult(string sqlString, IDataParameter[] parameters)
+        public static int GetIntResult(string sqlString, IDataParameter[] parameters)
         {
             var count = 0;
 
-            using (var conn = _helper.GetConnection(_connectionString))
+            using (var conn = Context.DatabaseApi.GetConnection(Context.ConnectionString))
             {
                 conn.Open();
-                using (var rdr = _helper.ExecuteReader(conn, sqlString, parameters))
+                using (var rdr = Context.DatabaseApi.ExecuteReader(conn, sqlString, parameters))
                 {
                     if (rdr.Read() && !rdr.IsDBNull(0))
                     {
@@ -53,7 +44,7 @@ namespace SS.Magazine.Provider
             return count;
         }
 
-        public bool IsPurchased(int siteId, int contentId, string userName)
+        public static bool IsPurchased(int siteId, int contentId, string userName)
         {
             var isPurchased = false;
 
@@ -61,13 +52,13 @@ namespace SS.Magazine.Provider
 
             var parameters = new List<IDataParameter>
             {
-                _helper.GetParameter("SiteId", siteId),
-                _helper.GetParameter("ProductId", contentId),
-                _helper.GetParameter("UserName", userName),
-                _helper.GetParameter("IsPaied", true)
+                Context.DatabaseApi.GetParameter("SiteId", siteId),
+                Context.DatabaseApi.GetParameter("ProductId", contentId),
+                Context.DatabaseApi.GetParameter("UserName", userName),
+                Context.DatabaseApi.GetParameter("IsPaied", true)
             };
 
-            using (var rdr = _helper.ExecuteReader(_connectionString, sqlString, parameters.ToArray()))
+            using (var rdr = Context.DatabaseApi.ExecuteReader(Context.ConnectionString, sqlString, parameters.ToArray()))
             {
                 if (rdr.Read() && !rdr.IsDBNull(0))
                 {

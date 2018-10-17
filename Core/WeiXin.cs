@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SiteServer.Plugin;
 using SS.Magazine.Model;
+using SS.Magazine.Provider;
 using WxPayAPI;
 
 namespace SS.Magazine.Core
@@ -36,11 +37,11 @@ namespace SS.Magazine.Core
         //    var list = new List<ArticleInfo>();
         //    if (articleId == 0)
         //    {
-        //        list = Main.ArticleDao.GetArticleInfoList(siteId, contentId);
+        //        list = ArticleDao.GetArticleInfoList(siteId, contentId);
         //    }
         //    else
         //    {
-        //        var articleInfo = Main.ArticleDao.GetArticleInfo(articleId);
+        //        var articleInfo = ArticleDao.GetArticleInfo(articleId);
         //        if (articleInfo != null)
         //        {
         //            list.Add(articleInfo);
@@ -50,7 +51,7 @@ namespace SS.Magazine.Core
         //    return new
         //    {
         //        Articles = list,
-        //        IsPurchased = Main.Dao.IsPurchased(siteId, contentId, context.UserName)
+        //        IsPurchased = Dao.IsPurchased(siteId, contentId, context.UserName)
         //    };
         //}
 
@@ -135,7 +136,7 @@ namespace SS.Magazine.Core
 ");
             if (isPaied)
             {
-                Main.OrderDao.UpdateIsPaied(guid);
+                OrderDao.UpdateIsPaied(guid);
             }
 
             response.Content = new StringContent(responseXml);
@@ -231,7 +232,7 @@ namespace SS.Magazine.Core
 
         //public static object Notify(string guid)
         //{
-        //    Main.OrderDao.UpdateIsPaied(guid);
+        //    OrderDao.UpdateIsPaied(guid);
 
         //    //return new
         //    //{
@@ -265,7 +266,7 @@ namespace SS.Magazine.Core
 
         //                    if (!string.IsNullOrEmpty(status) && status == "SUCCESS")
         //                    {
-        //                        Main.OrderDao.UpdateIsPaied(guid);
+        //                        OrderDao.UpdateIsPaied(guid);
 
         //                        WeiXinUtil.BuildReturnXml("OK", "成功");
         //                    }

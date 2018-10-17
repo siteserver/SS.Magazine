@@ -9,17 +9,10 @@ namespace SS.Magazine
     public class Main : PluginBase
     {
         public static string PluginId { get; private set; }
-        public static Dao Dao { get; private set; }
-        public static ArticleDao ArticleDao { get; private set; }
-        public static OrderDao OrderDao { get; private set; }
 
         public override void Startup(IService service)
         {
             PluginId = Id;
-
-            Dao = new Dao();
-            ArticleDao = new ArticleDao();
-            OrderDao = new OrderDao();
 
             service
                 .AddContentModel(ContentTableUtils.ContentTableName, ContentTableUtils.ContentTableColumns)

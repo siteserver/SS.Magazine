@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SiteServer.Plugin;
 using SS.Magazine.Model;
+using SS.Magazine.Provider;
 
 namespace SS.Magazine.Parse
 {
@@ -22,11 +23,11 @@ namespace SS.Magazine.Parse
             var list = new List<ArticleInfo>();
             if (articleId == 0)
             {
-                list = Main.ArticleDao.GetArticleInfoList(siteId, contentId);
+                list = ArticleDao.GetArticleInfoList(siteId, contentId);
             }
             else
             {
-                var articleInfo = Main.ArticleDao.GetArticleInfo(articleId);
+                var articleInfo = ArticleDao.GetArticleInfo(articleId);
                 if (articleInfo != null)
                 {
                     list.Add(articleInfo);
@@ -36,7 +37,7 @@ namespace SS.Magazine.Parse
             return new
             {
                 Articles = list,
-                IsPurchased = Main.Dao.IsPurchased(siteId, contentId, context.UserName)
+                IsPurchased = Dao.IsPurchased(siteId, contentId, context.UserName)
             };
         }
 

@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using SiteServer.Plugin;
 using SS.Magazine.Core;
+using SS.Magazine.Provider;
 
 namespace SS.Magazine.Controls
 {
@@ -725,7 +726,7 @@ ORDER BY {SortField} {SortMode}";
         {
             var cmdText = GetQueryCountCommandText();
 
-            return Main.Dao.GetIntResult(cmdText);
+            return Dao.GetIntResult(cmdText);
         }
 
         /// <summary>
