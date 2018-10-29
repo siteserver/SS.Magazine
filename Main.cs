@@ -16,7 +16,7 @@ namespace SS.Magazine
 
             service
                 .AddContentModel(ContentTableUtils.ContentTableName, ContentTableUtils.ContentTableColumns)
-                .AddContentMenu(new Menu
+                .AddContentMenu(contentInfo => new Menu
                 {
                     Text = "杂志文章管理",
                     Href = $"{nameof(PageArticles)}.aspx"
