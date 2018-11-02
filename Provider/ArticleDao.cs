@@ -15,7 +15,9 @@ namespace SS.Magazine.Provider
             new TableColumn
             {
                 AttributeName = nameof(ArticleInfo.Id),
-                DataType = DataType.Integer
+                DataType = DataType.Integer,
+                IsPrimaryKey = true,
+                IsIdentity = true
             },
             new TableColumn
             {
